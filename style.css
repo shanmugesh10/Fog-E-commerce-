@@ -1,0 +1,32 @@
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@100..800&display=swap');
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Sora',Georgia, 'Times New Roman', Times, serif;
+}
+h1{
+    font-size:50px;
+    line-height:64px;
+    color:aliceblue;
+}
+h2{
+    font-size:45px;
+    line-height: 53px;
+    color:lightslategray;
+}
+h3{
+    font-size: 20px;
+    color:maroon;
+    margin: 15px 0 20px 0;
+}
+
+s1{
+padding: 40px 80px;
+}
+s2{
+    padding: 40px 80px;
+}
+body{
+    width:100%;
+}
