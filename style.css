@@ -90,8 +90,8 @@ position: relative;
   
 }
 #MP .bt h3{
-    margin-top:60px ;
-      position: relative;
+    margin-top:-220px ;
+      position: absolute;
     position: -200px;
 }
 #MP {
@@ -222,7 +222,7 @@ position: relative;
 }
 #catg li a:hover,
 #catg li a.active{
-    color: black;
+    color: lightslategrey;
 }
 #catg li a.active::after,
 #catg li a:hover::after{
@@ -235,13 +235,48 @@ position: relative;
     left: 10px;
 }
 #updates {
-    display:flex;
-    justify-content: center;
-    align-items: center;
-    background-image:url(images/240_F_322259690_wHDOvIqvdoYYfw6ZxeSfm0AbGWHpUTIH.jpg) ;
-    width: 90%;
-    height: 40vh;
-    background-size: cover;
-    background-position: bottom;
-    margin: 40px auto;
+display: flex;
+justify-content: space-between;
+flex-wrap: wrap;
+align-items: center;
+position: sticky;
+background-repeat: no-repeat;
+background-position: -10% 40%;
+background-color:#041e42;
+background-image:url(images/240_F_322259690_wHDOvIqvdoYYfw6ZxeSfm0AbGWHpUTIH.jpg) ;
+padding-bottom: 100px;
+    
+}
+#updates h4{
+    font-size: 25px;
+    font-weight: 700;
+    color:white;
+}
+#updates p{
+    font-size: 20px;
+    font-weight: 600;
+    color:darkslateblue;
+}
+#updates input{
+    height: 3.125rem;
+    padding:0 1.25em;
+    font-size:14px;
+    width: 100%;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    outline: none; 
+     border-top-left-radius: 0 ;
+    border-top-right-radius: 0;
+
+}
+#updates button{
+     background-color:  lightskyblue;
+    color: white;
+    white-space: nowrap;
+    border-top-left-radius: 0 ;
+    border-top-right-radius: 0;
+}
+#updates .form{
+    display: flex;
+    width:40%;
 }
