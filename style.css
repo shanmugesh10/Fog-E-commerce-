@@ -8,7 +8,7 @@
 h1{
     font-size:50px;
     line-height:64px;
-    color:aliceblue;
+    color:white;
 }
 h2{
     font-size:45px;
@@ -17,16 +17,231 @@ h2{
 }
 h3{
     font-size: 20px;
-    color:maroon;
+    color:whitesmoke;
     margin: 15px 0 20px 0;
 }
 
-s1{
-padding: 40px 80px;
+.s1{
+padding: 100px 120px;
 }
-s2{
+.s2{
     padding: 40px 80px;
 }
 body{
+    margin:0;
+    background-color:#0F172A;
     width:100%;
+}
+
+#header{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 80px;
+    background-color: lightblue;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.06);
+     z-index:999;
+    position: sticky;
+    left:0;
+    top:0;
+}
+#navbar{
+    display: flex; 
+    align-items: center;
+    justify-content: center;
+   
+}
+#navbar li{
+list-style: none;
+padding: 0 20px;
+position: relative;
+}
+#navbar li a{
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 600;
+    color: azure;
+    transition: 0.3s ease;
+}
+#navbar li a:hover,
+#navbar li a.active{
+    color: black;
+}
+#navbar li a.active::after,
+#navbar li a:hover::after{
+    content: "";
+    width: 30%;
+    height: 2px;
+    background: black;
+    position: absolute;
+    bottom: -4px;
+    left: 20px;
+}
+#MP img{
+
+    width:60%;
+    height: auto;
+    border-radius: 40px;
+}
+.bt{
+    display: flex;
+    gap:20px;
+    flex-direction: column;
+  
+}
+#MP .bt h3{
+    margin-top:60px ;
+      position: relative;
+    position: -200px;
+}
+#MP {
+display: flex;
+align-items: center;
+padding: 25px 10px;
+gap:30px;
+border-radius: 40px;
+border: 2px solid aliceblue;
+background-repeat: no-repeat;
+}
+#MP button{
+    margin-top: 20px;  
+    font-size: 15px;
+    font-weight: 600;
+    padding: 15px 30px;
+    color: black;
+    background-color: white;
+    border-radius: 5px;
+    cursor:pointer;
+    border: none;
+    outline: none;
+    transition: 0.2s;
+
+}
+#MP button:hover{
+    color:white;
+    background-color: grey;
+    font-size: 100%;
+}
+
+#DE {
+    width:90% ;
+    height: 30%;
+    margin: 40px auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding:15px 10px ;
+    text-align: center;
+    box-shadow: 20px 10px 34px 10px rgba(0, 0, 0, 0.3) ;
+    border-radius: 2px solid azure;
+}
+
+#DE img{ 
+    transform: scale();
+    max-width: 100%;
+}
+#DE img#a2{
+    transform: scale(0.4);
+    margin-left:30px;
+    margin-top:250px;
+}
+#banner {
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-image: url(images/240_F_2015230807_HwClHNnRsJLSi6wXNMNQUerrFSOhAvzN.jpg);
+    width: 90%;
+    height: 40vh;
+    background-size: cover;
+    background-position: bottom;
+    margin: 40px auto;
+}
+#banner h2{
+    color: snow;
+}
+#banner h3{
+    color:palevioletred;
+    font-size: 30px;
+}
+#banner button{
+    margin-top: 20px;
+    color:black;
+
+}
+#banner h3 span{
+    color: darkred;
+}
+#banner button:hover{
+    color: white;
+   background-color:violet; 
+    font-size: 100%;
+}
+button.normal{
+    font-size: 15px;
+    font-weight: 600;
+    padding: 15px 30px;
+    color: black;
+    background-color: white;
+    border-radius: 5px;
+    cursor:pointer;
+    border: none;
+    outline: none;
+    transition: 0.2s;
+
+} 
+#catgs{
+    display: flex;
+    width:95%;
+    align-items:right;
+    justify-content: space-between;
+    box-shadow:  20px 10px 34px 10px rgba(0, 0, 0, 0.3);
+    margin: 40px auto;
+    position: sticky;
+    flex-direction: column;
+    left:0;
+    top:0;
+}
+#catg{
+    display: flex; 
+    align-items: center;
+    justify-content: center;
+
+}
+#catg li{
+list-style: none;
+padding: 0 20px;
+position: relative;
+}
+#catg li a{
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 600;
+    color: azure;
+    transition: 0.3s ease;
+}
+#catg li a:hover,
+#catg li a.active{
+    color: black;
+}
+#catg li a.active::after,
+#catg li a:hover::after{
+    content: "";
+    width: 90%;
+    height: 2px;
+    background: black;
+    position: absolute;
+    bottom: -4px;
+    left: 10px;
+}
+#updates {
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    background-image:url(images/240_F_322259690_wHDOvIqvdoYYfw6ZxeSfm0AbGWHpUTIH.jpg) ;
+    width: 90%;
+    height: 40vh;
+    background-size: cover;
+    background-position: bottom;
+    margin: 40px auto;
 }
