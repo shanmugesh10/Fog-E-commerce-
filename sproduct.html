@@ -14,24 +14,44 @@
             <a href="#"><img src="images/fog-logo.svg" class="logo"></a>
             <div>
                 <ul id ="navbar">
-                    <li><a class="active" href="index.html">HOME</a></li>
-                        <li><a href="store.html">STORE</a></li>
+                    <li><a  href="index.html">HOME</a></li>
+                        <li><a class="active" href="store.html">STORE</a></li>
                         <li><a href="about.html">ABOUT</a></li>
                         <li><a href="support.html">SUPPORT</a></li>
                         <li><a href="cart.html"><i class="fa-solid fa-cart-shopping"></i></a></li>
                 </ul>       
             </div>
         </section>
-    
-        <section id="MP">
+    <section id="prodetails" class="s1">
+        <div class="singleproimage">
+            <img src="images/553001473_18535100431006791_7095479555562307551_n.jpg" width="100%" id="mainImg" alt="">
+            <div class="smallimggrp">
+                <div class="smallimgcol"><img src="images/553001473_18535100431006791_7095479555562307551_n.jpg" width="100%" class="smallimg"></div>
+                <div class="smallimgcol"><img src="images/715338408_18599729809006791_270447710474272598_n.jpg" width="100%" class="smallimg"></div>
+                <div class="smallimgcol"><img src="images/715338408_18599729809006791_270447710474272598_n.jpg" width="100%" class="smallimg"></div>
+            </div>
+        </div>
+        <div class="single-pro-details">
+            <h6>Home / Games</h6>
+            <h4>Action games</h4>
+            <h3>MARVEL's Wolverine</h3>
+            <h2>$50</h2>
+            <select>
+                <option>Select edition</option>
+                <option>Original</option>
+                <option>Original+DLC</option>
+            </select>
+            <button class="normal">Buy Now</button>
+            <h4>Description</h4>
+            <span>Step into the claws of Wolverine in this action-packed single-player adventure from Insomniac Games.
+                 Explore a brutal and cinematic story, unleash Wolverine’s powerful abilities, and experience intense 
+                 combat as you uncover a gripping chapter from his past. Built for PlayStation 5, Marvel’s Wolverine 
+                 brings the iconic mutant to life with stunning visuals and visceral gameplay.
+            </span>
             
-            <img src="https://wallpapercave.com/wp/wp7593605.jpg">
-                <div class="bt">
-            <h3>FEATURED & RECOMMENDED</h3>
-            <h2>MARVEL's SPIDERMAN</h2>
-            <button>Play Now!</button></div>
-            </section>
-        <section id="DE" class="s2">
+        </div>
+    </section>
+ <section id="DE" class="s2">
              <h1>ON DISCOUNT</h1>
             <div class="dbox">
                
@@ -46,38 +66,7 @@
              <div class="dbox">
                 <img src="images/nfs.png">
             </div>
-        </section>     
-    
-        <section id="banner" class="s2">  
-            <h2>
-                FOG Fest
-            </h2>
-            <h3><span>69%</span> Discounts</h3>
-            <button class="normal">Explore Now!!</button> 
         </section>
-    <section id="catgs">
-            <div class="s2">
-                <ul id="catg">
-            <li><a href="">Popular releases</a>
-            <li><a href="">Top Grossing</a></li>
-            <li><a href="">Popular Upcoming</a></li>
-            <li><a href="">Top Free</a></li>
-            </ul>
-            </div>
-            <div class="s2"> 
-                <img src="images/capsule_231x87.jpg">
-            </div>
-            <div class="s2"> 
-                <img src="images/capsule_231x87.jpg">
-            </div>
-            <div class="s2"> 
-                <img src="images/capsule_231x87.jpg">
-            </div>
-            <div class="s2"> 
-                <img src="images/capsule_231x87.jpg">
-            </div>
-            
-    </section>
 
     <footer>
         <section id="updates">
@@ -121,6 +110,19 @@
             </div>
         </section>
         </footer>
+        <script>
+            var MainImg=document.getElementById("mainImg");
+            var SmallImg=document.getElementsByClassName("smallimg"); 
+            SmallImg[0].onclick=function(){
+                MainImg.src=SmallImg[0].src
+            }
+            SmallImg[1].onclick=function(){
+                MainImg.src=SmallImg[1].src
+            }
+            SmallImg[2].onclick=function(){
+                MainImg.src=SmallImg[2].src
+            }
+        </script>
         <script src="script.js"></script>
     </body>
 </html>
