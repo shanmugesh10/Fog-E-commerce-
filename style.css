@@ -391,3 +391,43 @@ footer a{
     color: white;
     line-height:35px;
 }
+/* About page */
+#page-header.about-header{
+    background-image: url("images/about2.jpg");
+    background-position: center center;
+} 
+#about-head img{
+    width: 50%;
+    height: auto;
+}
+#about-head{
+    display: flex;
+    align-items: center;
+}
+#about-head div{
+    padding: 40px;
+}
+
+#about-head .marq {
+    overflow: hidden;
+    white-space: nowrap;
+}
+#about-head .marq-info{
+    display: inline-block;
+    animation: scroll 10s linear infinite;
+    color: aliceblue;
+}
+#about-head h3{
+    font-size: 30px;
+}
+#about-head p{
+    font-size: 20px;
+}
+@keyframes scroll{
+    from{
+        transform: translateX(100%);
+    }
+    to{
+        transform: translateX(-100%);
+    }
+}
