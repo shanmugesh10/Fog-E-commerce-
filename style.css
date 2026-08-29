@@ -391,6 +391,22 @@ footer a{
     color: white;
     line-height:35px;
 }
+ .Sys-req {
+    display: grid;
+    color: darkslategray;
+    grid-template-columns:  1fr 1fr;
+}
+.Sys-req h2{
+grid-column: 1 / -1;
+}
+.sr {
+    display: grid;
+    color: darkslategray;
+    grid-template-columns:  1fr 1fr;
+}
+.sr h4{
+grid-column: 1 / -1;
+} 
 /* About page */
 #page-header.about-header{
     background-image: url("images/about2.jpg");
@@ -432,6 +448,9 @@ footer a{
     }
 }
 /*support*/
+#page-header.support-header{
+    background-image: url("images/contact13.jpg");  
+}
 #contact-details{
     display: flex;
     align-items: center;
@@ -495,3 +514,94 @@ footer a{
 #form-details form button{
     background-color: seashell;
 }
+/*cart*/
+#cart table{
+    width:100%;
+    border-collapse: collapse;
+    table-layout: flex;
+    white-space: nowrap;
+}
+#cart  table img{
+    width:70px;
+}
+#cart table td:nth-child(1){
+    width:100px;
+    text-align: center;
+}
+#cart table td:nth-child(2){
+    width:150px;
+    text-align: center;
+}#cart table td:nth-child(3){
+    width:250px;
+    text-align: center;
+}
+#cart table td:nth-child(4),
+#cart table td:nth-child(5),
+#cart table td:nth-child(6){
+    width:150px;
+    text-align: center;
+}
+#cart table td:nth-child(5) input{
+    width:70px;
+    padding:10px 5px 10px 15px;
+
+}
+#cart table thead{
+    border:1px solid whitesmoke;
+    border-left: none;
+    border-right: none;
+}
+#cart table thead td{
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size:13px;
+    padding:18px 0px;
+    color:whitesmoke;
+}
+#cart table tbody tr td{
+    padding:15px;
+}
+#cart table tbody td{
+    font-size: 13px;
+    color: aliceblue;
+}
+#cart-add{
+    display:flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+#coupon{
+    width:50%;
+    margin-bottom: 30px;
+}
+#coupon h3,#subtotal h3{
+    padding:15px;
+}
+#coupon input{
+    width:40%;
+    outline: none;
+    margin-right: 10px;
+    font-weight: 500;
+    height: 50px;
+    font-size: 15px;
+}
+ #subtotal{
+    color:aliceblue;
+    padding:30px;
+    border: 1px solid grey;
+    width:50%; 
+    margin-bottom: 30px;
+}
+#subtotal table{
+    border-collapse: collapse;
+    padding: 10px;
+    width:100%;
+    margin-bottom: 20px;
+}
+#subtotal table td{
+    width:30%;
+    border:1px solid grey;
+    padding:10px;
+    font-size: 16px;
+}
+
