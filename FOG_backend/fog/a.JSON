@@ -1,4 +1,6 @@
 {
-    "name":"spiderman",
-    "price": 999
+    "name":"IRONMAN",
+    "price": 999.0,
+    "genre":"Action",
+    "imageUrl":"FOG_frontend/images/715338408_18599729809006791_270447710474272598_n.jpg"
 }
