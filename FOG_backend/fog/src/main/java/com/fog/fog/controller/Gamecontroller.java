@@ -2,6 +2,7 @@ package com.fog.fog.controller;
 
 import java.util.List;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,7 +23,7 @@ public class Gamecontroller {
     public Gamecontroller(GameService gameService) {
         this.gameService = gameService;
     }
-
+    @CrossOrigin(origins = "http://127.0.0.1:5500")
     @GetMapping
     public List<Game> getAllGames() {
         return gameService.getAllGames();

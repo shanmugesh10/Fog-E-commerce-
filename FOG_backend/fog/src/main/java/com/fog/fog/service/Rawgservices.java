@@ -14,5 +14,9 @@ public class Rawgservices {
     public String getGames(){
             String url= apiUrl + "/games?key=" + apiKey;
             return  restTemplate.getForObject(url,String.class);
+        }
+    public String getGameDetails(Long id){
+        String url= apiUrl + "/games/" + id + "?key=" + apiKey;
+        return restTemplate.getForObject(url, String.class);
     }
 }
