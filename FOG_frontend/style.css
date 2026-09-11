@@ -207,28 +207,12 @@ background-repeat: no-repeat;
         width: 100%;
     }
 }
-#DE {
-    width:90% ;
-    height: 30%;
-    margin: 40px auto;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding:15px 10px ;
-    text-align: center;
-    box-shadow: 20px 10px 34px 10px rgba(0, 0, 0, 0.3) ;
-    border-radius: 2px solid azure;
+#DE h1{
+    
+    font-size: 20px;
+    padding-right: 5px;
 }
 
-#DE img{ 
-    transform: scale();
-    max-width: 100%;
-}
-#DE img#a2{
-    transform: scale(0.4);
-    margin-left:30px;
-    margin-top:250px;
-}
 #banner {
     display:flex;
     flex-direction: column;
@@ -274,52 +258,66 @@ button.normal{
     transition: 0.2s;
 
 } 
-#catgs{
-    display: flex;
-    width:95%;
-    align-items:right;
-    justify-content: space-between;
-    box-shadow:  20px 10px 34px 10px rgba(0, 0, 0, 0.3);
-    margin: 40px auto;
-    position: sticky;
-    flex-direction: column;
-    left:0;
-    top:0;
+#catgs {
+    display: block;
 }
-#catg{
-    display: flex; 
-    align-items: center;
-    justify-content: center;
 
+#catg {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    list-style: none;
+    padding: 0;
 }
-#catgs img{
-    cursor:pointer
+
+#catg button {
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid transparent;
+    color: whitesmoke;
+    font: inherit;
+    cursor: pointer;
+    padding: 10px 0;
 }
-#catg li{
-list-style: none;
-padding: 0 20px;
-position: relative;
+
+#catg button:hover,
+#catg button.active {
+    color: #ff6600;
 }
-#catg li a{
+
+#catg button.active {
+    border-bottom-color: #ff6600;
+}
+#catgs #catg li a {
+    color: white;
     text-decoration: none;
-    font-size: 16px;
-    font-weight: 600;
-    color: azure;
-    transition: 0.3s ease;
+    cursor: pointer;
 }
-#catg li a:hover,
-#catg li a.active{
-    color: lightslategrey;
+
+#catgs #catg li a:hover,
+#catgs #catg li a.active {
+    color: #66c0f4;
 }
-#catg li a.active::after,
-#catg li a:hover::after{
-    content: "";
-    width: 90%;
-    height: 2px;
-    background: black;
-    position: absolute;
-    bottom: -4px;
-    left: 10px;
+
+#category-games {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+}
+
+#category-games img {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+#category-games .game-description {
+    padding: 10px 0;
+}
+
+#category-status {
+    color: #ccc;
 }
 #catgs > .s2 > img {
     display: block;
@@ -800,4 +798,73 @@ background-color: #ADD8E6;
     padding: 12px 15px;
     outline:none;
     margin-bottom: 20px;
+}
+#discount-container {
+    display: flex;
+    gap: 170px;
+    overflow-x: auto;
+    padding: 10px 0;
+    color:aliceblue;
+}
+
+#discount-container .dbox {
+    width: 220px;
+    flex-shrink: 0;
+}
+
+#discount-container .dbox img {
+    width: 220px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+#discount-container .dbox h3 {
+    font-size: 16px;
+    margin: 8px 0 4px;
+}
+
+#discount-container .dbox p {
+    font-size: 14px;
+    margin: 0;
+}
+body:has(#MP) #category-games {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 24px;
+    padding: 24px;
+}
+
+body:has(#MP) #category-games .category-card {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    height: 100%;
+    overflow: hidden;
+    background: #1e293b;
+    border-radius: 12px;
+}
+
+body:has(#MP) #category-games .category-card > img {
+    display: block;
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    margin: 0;
+    flex-shrink: 0;
+}
+
+body:has(#MP) #category-games .game-description {
+    width: 100%;
+    padding: 16px;
+}
+
+body:has(#MP) #category-games h3 {
+    margin: 0 0 12px;
+    font-size: 18px;
+    line-height: 1.4;
+    overflow-wrap: anywhere;
+}
+#about-head p{
+    color: white;
 }

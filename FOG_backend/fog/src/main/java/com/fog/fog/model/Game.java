@@ -17,7 +17,7 @@ public class Game{
         return id;
     }
     public Long getRawgId(){
-        return id;
+        return rawgId;
     }
     public String getName(){
         return name;

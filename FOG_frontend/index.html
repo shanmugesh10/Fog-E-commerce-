@@ -6,7 +6,16 @@
         <title>FOG E-COMMERCE WEBSITE</title>
         <link rel="stylesheet" href="style.css">
        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.0/css/all.min.css" />
+        <style>
+  nav a {
+    color: white;
+    text-decoration: none;
+  }
 
+  nav a:hover {
+    color: #66c0f4;
+  }
+</style>
     </head>
     <body>
         <section id="header">
@@ -33,19 +42,8 @@
             </section>
         <section id="DE" class="s2">
              <h1>ON DISCOUNT</h1>
-            <div class="dbox">
-               
-                <img src="images/nfs.png">
-            </div>
-             <div class="dbox">
-                <img src="images/wolverine.png">
-            </div>
-             <div class="dbox">
-                <img src="images/nfs.png">
-            </div>
-             <div class="dbox">
-                <img src="images/nfs.png">
-            </div>
+             <div id="discount-container"></div>
+          
         </section>     
     
         <section id="banner" class="s2">  
@@ -56,28 +54,35 @@
             <button class="normal">Explore Now!!</button> 
         </section>
     <section id="catgs">
-            <div class="s2">
-                <ul id="catg">
-            <li><a href="">Popular releases</a>
-            <li><a href="">Top Grossing</a></li>
-            <li><a href="">Popular Upcoming</a></li>
-            <li><a href="">Top Free</a></li>
-            </ul>
-            </div>
-            <div class="s2"> 
-                <img src="images/capsule_231x87.jpg">
-            </div>
-            <div class="s2"> 
-                <img src="images/capsule_231x87.jpg">
-            </div>
-            <div class="s2"> 
-                <img src="images/capsule_231x87.jpg">
-            </div>
-            <div class="s2"> 
-                <img src="images/capsule_231x87.jpg">
-            </div>
-            
-    </section>
+    <div class="s2">
+        <ul id="catg">
+            <li>
+                <button type="button" data-category="popular"
+                        class="active">
+                    Popular Releases
+                </button>
+            </li>
+            <li>
+                <button type="button" data-category="rated">
+                    Top Rated
+                </button>
+            </li>
+            <li>
+                <button type="button" data-category="upcoming">
+                    Popular Upcoming
+                </button>
+            </li>
+            <li>
+                <button type="button" data-category="all">
+                    Most Popular
+                </button>
+            </li>
+        </ul>
+    </div>
+
+    <p id="category-status" role="status"></p>
+    <div id="category-games" class="s2"></div>
+</section>
 
     <footer>
         <section id="updates">
