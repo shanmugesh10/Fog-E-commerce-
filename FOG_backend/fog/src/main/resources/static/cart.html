@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Your Cart | FOG</title>
+
+    <link rel="stylesheet" href="style.css">
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.0/css/all.min.css"
+    >
+
+    <style>
+        #cart {
+            overflow-x: auto;
+        }
+
+        #cart table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        #cart th,
+        #cart td {
+            padding: 15px;
+            text-align: center;
+        }
+
+        #cart td img {
+            width: 120px;
+            height: 70px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        #cart a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        #cart a:hover {
+            color: #66c0f4;
+        }
+
+        .remove-game {
+            background: transparent;
+            border: none;
+            color: #ff6464;
+            font-size: 22px;
+            cursor: pointer;
+        }
+
+        #empty-cart,
+        #cart-status {
+            text-align: center;
+            padding: 20px;
+        }
+
+        #cart-status:empty {
+            display: none;
+        }
+
+        #empty-cart a {
+            display: inline-block;
+            margin-top: 12px;
+            color: #66c0f4;
+        }
+
+        #checkout-button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+
+<body>
+    <section id="header">
+        <a href="index.html">
+            <img src="images/fog-logo.svg" class="logo" alt="FOG">
+        </a>
+
+        <div>
+            <ul id="navbar">
+                <li><a href="index.html">HOME</a></li>
+                <li><a href="store.html">STORE</a></li>
+                <li><a href="about.html">ABOUT</a></li>
+                <li><a href="support.html">SUPPORT</a></li>
+                <li>
+                    <a
+                        class="active"
+                        href="cart.html"
+                        aria-label="Shopping cart"
+                    >
+                        <i class="fa-solid fa-cart-shopping"></i>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </section>
+
+    <section id="page-header" class="cart-header">
+        <h2>#YourCart</h2>
+        <p>Your next adventure starts here!</p>
+    </section>
+
+    <p id="cart-status" role="status"></p>
+
+    <section id="cart" class="s2">
+        <div id="empty-cart" hidden>
+            <h3>Your cart is empty</h3>
+            <p>Explore the store and add your favourite games.</p>
+            <a href="store.html">Browse Games</a>
+        </div>
+
+        <table id="cart-table" hidden>
+            <thead>
+                <tr>
+                    <th scope="col">Remove</th>
+                    <th scope="col">Image</th>
+                    <th scope="col">Product</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">Subtotal</th>
+                </tr>
+            </thead>
+
+            <tbody id="cart-items"></tbody>
+        </table>
+    </section>
+
+    <section id="cart-add" class="s2">
+        <div id="coupon">
+            <h3>Continue exploring</h3>
+            <a href="store.html">Back to Store</a>
+        </div>
+
+        <div id="subtotal">
+            <h3>Cart Totals</h3>
+
+            <table>
+                <tr>
+                    <td>Games</td>
+                    <td id="cart-count">0</td>
+                </tr>
+                <tr>
+                    <td>Cart subtotal</td>
+                    <td id="cart-subtotal">—</td>
+                </tr>
+                <tr>
+                    <td>Shipping</td>
+                    <td>Not required — digital games</td>
+                </tr>
+                <tr>
+                    <td><strong>Total</strong></td>
+                    <td><strong id="cart-total">—</strong></td>
+                </tr>
+            </table>
+
+            <p id="pricing-message"></p>
+
+            <button id="checkout-button" class="normal" disabled>
+                Checkout unavailable
+            </button>
+        </div>
+    </section>
+
+    <footer>
+        <section id="updates">
+    <div class="s2">
+        <h4>Sign up to get Fogged</h4>
+        <p>Get game news and updates</p>
+    </div>
+
+    <div class="s2">
+        <ul id="navl">
+            <li><span>Follow us on</span></li>
+
+            <!-- Replace these with your actual FOG social profile URLs -->
+            <li>
+                <a href="https://www.youtube.com/"
+                   target="_blank" rel="noopener noreferrer"
+                   aria-label="YouTube">
+                    <i class="fa-brands fa-youtube"></i>
+                </a>
+            </li>
+            <li>
+                <a href="https://telegram.org/"
+                   target="_blank" rel="noopener noreferrer"
+                   aria-label="Telegram">
+                    <i class="fa-brands fa-telegram"></i>
+                </a>
+            </li>
+            <li>
+                <a href="https://www.instagram.com/"
+                   target="_blank" rel="noopener noreferrer"
+                   aria-label="Instagram">
+                    <i class="fa-brands fa-instagram"></i>
+                </a>
+            </li>
+            <li>
+                <a href="https://www.facebook.com/"
+                   target="_blank" rel="noopener noreferrer"
+                   aria-label="Facebook">
+                    <i class="fa-brands fa-facebook"></i>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <div>
+        <form class="form" id="newsletter-form">
+            <input
+                type="email"
+                id="newsletter-email"
+                name="email"
+                placeholder="Your email address"
+                aria-label="Your email address"
+                autocomplete="email"
+                maxlength="254"
+                required
+            >
+            <button class="normal" type="submit">Sign up</button>
+        </form>
+
+        <p id="newsletter-message" role="status" aria-live="polite"></p>
+    </div>
+
+    <div class="col">
+        <h3>About us</h3>
+        <a href="about.html">About us</a>
+        <a href="delivery.html">Delivery information</a>
+        <a href="privacy.html">Privacy Policy</a>
+        <a href="terms.html">Terms &amp; conditions</a>
+        <a href="support.html">Contact us</a>
+    </div>
+
+    <div class="col">
+        <h3>My Account</h3>
+        <a href="login.html">Sign In</a>
+        <a href="cart.html">View Cart</a>
+        <a href="wishlist.html">My Wishlist</a>
+        <a href="orders.html">My Orders</a>
+        <a href="support.html">Help</a>
+    </div>
+</section>
+    </footer>
+
+    <script src="script.js"></script>
+
+    <script>
+        const cartBody = document.getElementById("cart-items");
+        const cartStatus = document.getElementById("cart-status");
+
+        function createCell(text) {
+            const cell = document.createElement("td");
+
+            if (text !== undefined) {
+                cell.textContent = text;
+            }
+
+            return cell;
+        }
+
+        function removeCartItem(id) {
+            try {
+                const cart = getCart().filter(
+                    game => String(game.id) !== String(id)
+                );
+
+                saveCart(cart);
+                cartStatus.textContent = "Game removed from cart.";
+                renderCart();
+            } catch (error) {
+                console.error(error);
+                cartStatus.textContent = "Could not remove this game.";
+            }
+        }
+
+        function renderCart() {
+            try {
+                const cart = getCart();
+
+                cartBody.replaceChildren();
+
+                document.getElementById("empty-cart").hidden =
+                    cart.length !== 0;
+
+                document.getElementById("cart-table").hidden =
+                    cart.length === 0;
+
+                cart.forEach(game => {
+                    const row = document.createElement("tr");
+
+                    const removeCell = createCell();
+                    const removeButton = document.createElement("button");
+
+                    removeButton.type = "button";
+                    removeButton.className = "remove-game";
+                    removeButton.textContent = "×";
+                    removeButton.setAttribute(
+                        "aria-label",
+                        `Remove ${game.name}`
+                    );
+
+                    removeButton.onclick = () => {
+                        removeCartItem(game.id);
+                    };
+
+                    removeCell.append(removeButton);
+
+                    const imageCell = createCell();
+
+                    if (game.image) {
+                        const image = document.createElement("img");
+
+                        image.src = game.image;
+                        image.alt = game.name;
+                        image.loading = "lazy";
+
+                        image.onerror = () => {
+                            imageCell.textContent = "Image unavailable";
+                        };
+
+                        imageCell.append(image);
+                    } else {
+                        imageCell.textContent = "Image unavailable";
+                    }
+
+                    const nameCell = createCell();
+                    const link = document.createElement("a");
+
+                    link.href =
+                        `sproduct.html?id=${encodeURIComponent(game.id)}`;
+
+                    link.textContent = game.name;
+                    nameCell.append(link);
+
+                    const priceCell = createCell("Unavailable");
+                    const subtotalCell = createCell("Unavailable");
+
+                    row.append(
+                        removeCell,
+                        imageCell,
+                        nameCell,
+                        priceCell,
+                        subtotalCell
+                    );
+
+                    cartBody.append(row);
+                });
+
+                document.getElementById("cart-count").textContent =
+                    cart.length;
+
+                const totalText = cart.length ? "Unavailable" : "—";
+
+                document.getElementById("cart-subtotal").textContent =
+                    totalText;
+
+                document.getElementById("cart-total").textContent =
+                    totalText;
+
+                document.getElementById("pricing-message").textContent =
+                    cart.length
+                        ? "Prices and checkout are not available yet."
+                        : "Add games from the store to get started.";
+            } catch (error) {
+                console.error("Could not load cart:", error);
+                cartStatus.textContent =
+                    "Could not read your saved cart. Check browser storage settings.";
+            }
+        }
+
+        window.addEventListener("storage", event => {
+            if (event.key === FOG_CART_KEY || event.key === null) {
+                renderCart();
+            }
+        });
+
+        renderCart();
+    </script>
+</body>
+</html>
