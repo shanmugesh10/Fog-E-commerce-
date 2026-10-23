@@ -1,148 +1,361 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width,initial-scale=1.0">
-        <title>FOG E-COMMERCE WEBSITE</title>
-        <link rel="stylesheet" href="style.css">
-       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.0/css/all.min.css" />
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    </head>
-    <body>
-        <section id="header">
-            
-            <a href="#"><img src="images/fog-logo.svg" class="logo"></a>
-            <div>
-                <ul id ="navbar">
-                    <li><a  href="index.html">HOME</a></li>
-                        <li><a class="active" href="store.html">STORE</a></li>
-                        <li><a href="about.html">ABOUT</a></li>
-                        <li><a href="support.html">SUPPORT</a></li>
-                        <li><a href="cart.html"><i class="fa-solid fa-cart-shopping"></i></a></li>
-                </ul>       
-            </div>
-        </section>
-    <section id="prodetails" class="s1">
-        <div class="singleproimage">
-            <img src="images/553001473_18535100431006791_7095479555562307551_n.jpg" width="100%" id="mainImg" alt="">
-            <div class="smallimggrp">
-                <div class="smallimgcol"><img src="images/553001473_18535100431006791_7095479555562307551_n.jpg" width="100%" class="smallimg"></div>
-                <div class="smallimgcol"><img src="images/715338408_18599729809006791_270447710474272598_n.jpg" width="100%" class="smallimg"></div>
-                <div class="smallimgcol"><img src="images/715338408_18599729809006791_270447710474272598_n.jpg" width="100%" class="smallimg"></div>
-            </div>
-        </div>
-        <div class="single-pro-details">
-            <h6>Home / Games</h6>
-            <h4>Action games</h4>
-            <h3>MARVEL's Wolverine</h3>
-            <h2>$50</h2>
-            <select>
-                <option>Select edition</option>
-                <option>Original</option>
-                <option>Original+DLC</option>
-            </select>
-            <button class="normal">Buy Now</button>
-            <h4>Description</h4>
-            <span>Step into the claws of Wolverine in this action-packed single-player adventure from Insomniac Games.
-                 Explore a brutal and cinematic story, unleash Wolverine’s powerful abilities, and experience intense 
-                 combat as you uncover a gripping chapter from his past. Built for PlayStation 5, Marvel’s Wolverine 
-                 brings the iconic mutant to life with stunning visuals and visceral gameplay.
-            </span>
-            
+    <title>Game Details | FOG</title>
+
+    <link rel="stylesheet" href="style.css">
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.0/css/all.min.css"
+    >
+
+    <style>
+        #mainImg {
+            width: 100%;
+            height: auto;
+            border-radius: 12px;
+        }
+
+        #game-description,
+        .requirement-text {
+            white-space: pre-line;
+            overflow-wrap: anywhere;
+            line-height: 1.7;
+        }
+
+        #product-status {
+            padding: 15px 30px;
+        }
+
+        #product-status:empty {
+            display: none;
+        }
+
+        #sysrq .requirements-content {
+            display: block;
+            padding: 20px;
+        }
+
+        #sysrq .requirements-content h3 {
+            margin: 20px 0 10px;
+        }
+
+        #discount-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        #discount-container .dbox {
+            flex: 1 1 200px;
+        }
+
+        #discount-container img {
+            width: 100%;
+            border-radius: 10px;
+        }
+
+        #buy-button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+
+<body>
+    <section id="header">
+        <a href="index.html">
+            <img src="images/fog-logo.svg" class="logo" alt="FOG">
+        </a>
+
+        <div>
+            <ul id="navbar">
+                <li><a href="index.html">HOME</a></li>
+                <li><a class="active" href="store.html">STORE</a></li>
+                <li><a href="about.html">ABOUT</a></li>
+                <li><a href="support.html">SUPPORT</a></li>
+                <li>
+                    <a href="cart.html" aria-label="Shopping cart">
+                        <i class="fa-solid fa-cart-shopping"></i>
+                    </a>
+                </li>
+            </ul>
         </div>
     </section>
+
+    <p id="product-status" role="status">Loading game...</p>
+
+    <section id="prodetails" class="s1" aria-busy="true">
+        <div class="singleproimage">
+            <img id="mainImg" alt="" hidden>
+            <p id="image-message" hidden>Image unavailable.</p>
+        </div>
+
+        <div class="single-pro-details">
+            <h6>Home / Games</h6>
+
+            <h4 id="game-genre"></h4>
+            <h3 id="game-name">Loading...</h3>
+
+            <p id="game-rating"></p>
+            <p id="game-release"></p>
+            <p id="game-platforms"></p>
+
+            <h2>Price unavailable</h2>
+            <button id="buy-button" class="normal" disabled>
+                Purchase unavailable
+            </button>
+
+            <h4>Description</h4>
+            <p id="game-description">Loading description...</p>
+        </div>
+    </section>
+
     <section id="sysrq">
         <div class="Sys-req">
-            <h2>System requirements</h2>
-            <h3>Minimum:</h3>
-            <h3>Recommended:</h3>
+            <h2>PC System Requirements</h2>
         </div>
-        <div id="sr">
-            <h4>Requires a 64-bit processor and operating system</h4>
-            <h4>OS:</h4>
-            <h4>PROCESSOR:</h4>
-            <h4>MEMORY:</h4>
-            <h4>GRAPHICS:</h4>
-            <h4>STORAGE:</h4>
-            <p>windows 10</p>
-            <p>Intel i5 or similar</p>
-            <p>8 GB RAM</p>
-            <p>NVIDIA GEFORCE RTX 3050 (4GB V-RAM)</p>
-            <p>70 GB available space</p>
-            </div>
-        </section>
- <section id="DE" class="s2">
-             <h1>ON DISCOUNT</h1>
-            <div class="dbox">
-               
-                <img src="images/nfs.png">
-            </div>
-             <div class="dbox">
-                <img src="images/wolverine.png">
-            </div>
-             <div class="dbox">
-                <img src="images/nfs.png">
-            </div>
-             <div class="dbox">
-                <img src="images/nfs.png">
-            </div>
-        </section>
+
+        <div class="requirements-content">
+            <h3>Minimum:</h3>
+            <p id="minimum-requirements" class="requirement-text">
+                Loading...
+            </p>
+
+            <h3>Recommended:</h3>
+            <p id="recommended-requirements" class="requirement-text">
+                Loading...
+            </p>
+        </div>
+    </section>
+
+    <section id="DE" class="s2">
+        <h1>EXPLORE MORE GAMES</h1>
+        <div id="discount-container"></div>
+    </section>
 
     <footer>
         <section id="updates">
             <div class="s2">
                 <h4>Sign up to get Fogged</h4>
-                <p>Sign up now </p>
+                <p>Sign up now</p>
             </div>
+
             <div class="s2">
-                 <ul id ="navl">
-                    <li><a>Follow us on</a></li>
-                        <li><a href="youtube.com"><i class="fa-brands fa-youtube"></i></a></li>
-                        <li><a href="telegram.com"><i class="fa-brands fa-telegram"></i></a></li>
-                        <li><a href="instagram.com"><i class="fa-brands fa-instagram"></i></a></li>
-                        <li><a href="facebook.com"><i class="fa-brands fa-facebook"></i></a></li>
-                </ul>   
+                <ul id="navl">
+                    <li><span>Follow us on</span></li>
+                    <li>
+                        <a href="https://youtube.com" aria-label="YouTube">
+                            <i class="fa-brands fa-youtube"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://telegram.org" aria-label="Telegram">
+                            <i class="fa-brands fa-telegram"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://instagram.com" aria-label="Instagram">
+                            <i class="fa-brands fa-instagram"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://facebook.com" aria-label="Facebook">
+                            <i class="fa-brands fa-facebook"></i>
+                        </a>
+                    </li>
+                </ul>
             </div>
+
             <div class="form">
-                <input type="text" placeholder="Your email address">
+                <input
+                    type="email"
+                    placeholder="Your email address"
+                    aria-label="Your email address"
+                >
                 <button class="normal">Sign up</button>
             </div>
+
             <div class="col">
-            <h3>About us</h3>
-            <a href="#">About us</a>
-            <a href="#">Delivery information</a>
-            <a href="#">Privacy Policy</a>
-            <a href="#">Terms & conditions</a>
-            <a href="#">Contact us</a>
+                <h3>About us</h3>
+                <a href="about.html">About us</a>
+                <a href="#">Delivery information</a>
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms &amp; conditions</a>
+                <a href="support.html">Contact us</a>
             </div>
-           <div class="col">
-            <h3>My Account</h3>
-            <a href="#">Sign In</a>
-            <a href="#">View Cart</a>
-            <a href="#">My Wishlist</a>
-            <a href="#">Track My Order</a>
-            <a href="#">Help</a>
-            </div>
-            <div class="row">
-                <img src="">
-                <img src="">
-                <img src="">
+
+            <div class="col">
+                <h3>My Account</h3>
+                <a href="login.html">Sign In</a>
+                <a href="cart.html">View Cart</a>
+                <a href="#">My Wishlist</a>
+                <a href="#">Track My Order</a>
+                <a href="support.html">Help</a>
             </div>
         </section>
-        </footer>
-        <script>
-            var MainImg=document.getElementById("mainImg");
-            var SmallImg=document.getElementsByClassName("smallimg"); 
-            SmallImg[0].onclick=function(){
-                MainImg.src=SmallImg[0].src
+    </footer>
+
+    <!-- Keep this before the product-page script below. -->
+    <script src="script.js"></script>
+
+    <script>
+        // Convert formatted API text into plain text.
+        // API HTML is never inserted into the live page.
+        function plainText(value) {
+            if (!value) return "";
+
+            const formatted = String(value)
+                .replace(/<br\s*\/?>/gi, "\n")
+                .replace(/<\/(?:p|div|li|h[1-6])>/gi, "\n");
+
+            const parsed = new DOMParser().parseFromString(
+                formatted,
+                "text/html"
+            );
+
+            parsed.querySelectorAll("script, style").forEach(
+                element => element.remove()
+            );
+
+            return (parsed.body.textContent || "")
+                .replace(/\n[ \t]+/g, "\n")
+                .replace(/\n{3,}/g, "\n\n")
+                .trim();
+        }
+
+        async function loadProductPage() {
+            const params = new URLSearchParams(window.location.search);
+            const gameId = params.get("id");
+
+            const status = document.getElementById("product-status");
+            const section = document.getElementById("prodetails");
+            const image = document.getElementById("mainImg");
+            const imageMessage = document.getElementById("image-message");
+            const name = document.getElementById("game-name");
+            const description = document.getElementById("game-description");
+            const minimum = document.getElementById("minimum-requirements");
+            const recommended = document.getElementById(
+                "recommended-requirements"
+            );
+
+            if (!gameId || !/^[1-9]\d*$/.test(gameId)) {
+                status.textContent = "Open a game from the store first.";
+                name.textContent = "No game selected";
+                description.textContent = "";
+                minimum.textContent = "No game selected.";
+                recommended.textContent = "No game selected.";
+                section.setAttribute("aria-busy", "false");
+                return;
             }
-            SmallImg[1].onclick=function(){
-                MainImg.src=SmallImg[1].src
+
+            try {
+                const game = await fetchRawg(
+                    `/games/${encodeURIComponent(gameId)}`
+                );
+
+                if (!game || !game.name) {
+                    throw new Error("Game details were not returned.");
+                }
+
+                document.title = `${game.name} | FOG`;
+                name.textContent = game.name;
+                const buyButton = document.getElementById("buy-button");
+
+buyButton.disabled = false;
+buyButton.textContent = "Add to Cart";
+
+buyButton.onclick = () => {
+    try {
+        const added = addGameToCart(game);
+
+        status.textContent = added
+            ? `${game.name} added to your cart.`
+            : `${game.name} is already in your cart.`;
+
+        buyButton.textContent = "View Cart";
+        buyButton.onclick = () => {
+            window.location.href = "cart.html";
+        };
+    } catch (error) {
+        console.error("Could not save cart:", error);
+        status.textContent =
+            "Could not save your cart. Please check browser storage settings.";
+    }
+};
+
+                document.getElementById("game-genre").textContent =
+                    game.genres?.map(genre => genre.name).join(", ")
+                    || "Genre unavailable";
+
+                document.getElementById("game-rating").textContent =
+                    game.rating
+                        ? `⭐ ${game.rating} / 5`
+                        : "Not rated yet";
+
+                document.getElementById("game-release").textContent =
+                    game.released
+                        ? `Release: ${game.released}`
+                        : "Release date: TBA";
+
+                const platforms = game.platforms
+                    ?.map(item => item.platform?.name)
+                    .filter(Boolean)
+                    .join(", ");
+
+                document.getElementById("game-platforms").textContent =
+                    `Platforms: ${platforms || "Unavailable"}`;
+
+                description.textContent =
+                    game.description_raw?.trim()
+                    || plainText(game.description)
+                    || "No description available.";
+
+                if (game.background_image) {
+                    image.onerror = () => {
+                        image.hidden = true;
+                        imageMessage.hidden = false;
+                    };
+
+                    image.alt = game.name;
+                    image.src = game.background_image;
+                    image.hidden = false;
+                } else {
+                    imageMessage.hidden = false;
+                }
+
+                const pcPlatform = game.platforms?.find(
+                    item => item.platform?.slug === "pc"
+                );
+
+                minimum.textContent =
+                    plainText(pcPlatform?.requirements?.minimum)
+                    || "Minimum PC requirements are not available.";
+
+                recommended.textContent =
+                    plainText(pcPlatform?.requirements?.recommended)
+                    || "Recommended PC requirements are not available.";
+
+                status.textContent = "";
+            } catch (error) {
+                console.error("Could not load product:", error);
+
+                status.textContent =
+                    "Could not load this game. Check that your backend is running and refresh.";
+
+                name.textContent = "Game unavailable";
+                description.textContent = "Unable to load the description.";
+                minimum.textContent = "Unavailable.";
+                recommended.textContent = "Unavailable.";
+            } finally {
+                section.setAttribute("aria-busy", "false");
             }
-            SmallImg[2].onclick=function(){
-                MainImg.src=SmallImg[2].src
-            }
-        </script>
-        <script src="script.js"></script>
-    </body>
+        }
+
+        loadProductPage();
+    </script>
+</body>
 </html>

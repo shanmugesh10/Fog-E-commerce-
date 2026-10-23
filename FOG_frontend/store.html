@@ -58,46 +58,83 @@
 
     <footer>
         <section id="updates">
-            <div class="s2">
-                <h4>Sign up to get Fogged</h4>
-                <p>Sign up now </p>
-            </div>
-            <div class="s2">
-                 <ul id ="navl">
-                    <li><a>Follow us on</a></li>
-                        <li><a href="youtube.com"><i class="fa-brands fa-youtube"></i></a></li>
-                        <li><a href="telegram.com"><i class="fa-brands fa-telegram"></i></a></li>
-                        <li><a href="instagram.com"><i class="fa-brands fa-instagram"></i></a></li>
-                        <li><a href="facebook.com"><i class="fa-brands fa-facebook"></i></a></li>
-                </ul>   
-            </div>
-            <div class="form">
-                <input type="text" placeholder="Your email address">
-                <button class="normal">Sign up</button>
-            </div>
-            <div class="col">
-            <h3>About us</h3>
-            <a href="#">About us</a>
-            <a href="#">Delivery information</a>
-            <a href="#">Privacy Policy</a>
-            <a href="#">Terms & conditions</a>
-            <a href="#">Contact us</a>
-            </div>
-           <div class="col">
-            <h3>My Account</h3>
-            <a href="#">Sign In</a>
-            <a href="#">View Cart</a>
-            <a href="#">My Wishlist</a>
-            <a href="#">Track My Order</a>
-            <a href="#">Help</a>
-            </div>
-            <div class="row">
-                <img src="">
-                <img src="">
-                <img src="">
-            </div>
-        </section>
-        </footer>
+    <div class="s2">
+        <h4>Sign up to get Fogged</h4>
+        <p>Get game news and updates</p>
+    </div>
+
+    <div class="s2">
+        <ul id="navl">
+            <li><span>Follow us on</span></li>
+
+            <!-- Replace these with your actual FOG social profile URLs -->
+            <li>
+                <a href="https://www.youtube.com/"
+                   target="_blank" rel="noopener noreferrer"
+                   aria-label="YouTube">
+                    <i class="fa-brands fa-youtube"></i>
+                </a>
+            </li>
+            <li>
+                <a href="https://telegram.org/"
+                   target="_blank" rel="noopener noreferrer"
+                   aria-label="Telegram">
+                    <i class="fa-brands fa-telegram"></i>
+                </a>
+            </li>
+            <li>
+                <a href="https://www.instagram.com/"
+                   target="_blank" rel="noopener noreferrer"
+                   aria-label="Instagram">
+                    <i class="fa-brands fa-instagram"></i>
+                </a>
+            </li>
+            <li>
+                <a href="https://www.facebook.com/"
+                   target="_blank" rel="noopener noreferrer"
+                   aria-label="Facebook">
+                    <i class="fa-brands fa-facebook"></i>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <div>
+        <form class="form" id="newsletter-form">
+            <input
+                type="email"
+                id="newsletter-email"
+                name="email"
+                placeholder="Your email address"
+                aria-label="Your email address"
+                autocomplete="email"
+                maxlength="254"
+                required
+            >
+            <button class="normal" type="submit">Sign up</button>
+        </form>
+
+        <p id="newsletter-message" role="status" aria-live="polite"></p>
+    </div>
+
+    <div class="col">
+        <h3>About us</h3>
+        <a href="about.html">About us</a>
+        <a href="delivery.html">Delivery information</a>
+        <a href="privacy.html">Privacy Policy</a>
+        <a href="terms.html">Terms &amp; conditions</a>
+        <a href="support.html">Contact us</a>
+    </div>
+
+    <div class="col">
+        <h3>My Account</h3>
+        <a href="login.html">Sign In</a>
+        <a href="cart.html">View Cart</a>
+        <a href="wishlist.html">My Wishlist</a>
+        <a href="orders.html">My Orders</a>
+        <a href="support.html">Help</a>
+    </div>
+</section>        </footer>
         <script src="script.js"></script>
     </body>
 </html>

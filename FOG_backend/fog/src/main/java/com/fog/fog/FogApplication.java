@@ -13,3 +13,4 @@ public class FogApplication {
         SpringApplication.run(FogApplication.class, args);
     }
 }
+    

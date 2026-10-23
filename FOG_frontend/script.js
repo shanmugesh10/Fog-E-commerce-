@@ -1,44 +1,314 @@
 const API_BASE = "http://localhost:8080/api";
+const FOG_CART_KEY = "fog-cart";
 
+async function apiFetch(path, options = {}) {
+    const method = (options.method || "GET").toUpperCase();
+    const headers = new Headers(options.headers);
 
-document.getElementById("loginForm")?.addEventListener(
-    "submit",
-    async function (event) {
+    if (!["GET", "HEAD", "OPTIONS"].includes(method)) {
+        const tokenResponse = await fetch(`${API_BASE}/users/csrf`, {
+            credentials: "include",
+            cache: "no-store",
+            signal: options.signal
+        });
+
+        if (!tokenResponse.ok) {
+            throw new Error("Could not start a secure request. Please retry.");
+        }
+
+        const csrf = await tokenResponse.json();
+        headers.set(csrf.headerName, csrf.token);
+    }
+
+    return fetch(`${API_BASE}${path}`, {
+        ...options,
+        method,
+        headers,
+        credentials: "include"
+    });
+}
+
+async function loadCurrentUser() {
+    const response = await apiFetch("/users/me", {
+        cache: "no-store"
+    });
+
+    if (response.status === 401) {
+        return null;
+    }
+
+    if (!response.ok) {
+        throw new Error("Could not check your login.");
+    }
+
+    return response.json();
+}
+
+async function updateAccountDisplay() {
+    try {
+        const user = await loadCurrentUser();
+
+        document.querySelectorAll("[data-user-name]").forEach(element => {
+            element.textContent = user ? user.username : "";
+        });
+
+        document.querySelectorAll("[data-logged-in]").forEach(element => {
+            element.hidden = !user;
+        });
+
+        document.querySelectorAll("[data-logged-out]").forEach(element => {
+            element.hidden = Boolean(user);
+        });
+
+        return user;
+    } catch (error) {
+        console.error("Unable to check account:", error);
+        return null;
+    }
+}
+
+function initializeAccount() {
+    const form = document.getElementById("loginForm");
+
+    if (form && form.dataset.authInitialized !== "true") {
+        form.dataset.authInitialized = "true";
+
+        form.addEventListener("submit", async event => {
+            event.preventDefault();
+
+            const message = document.getElementById("loginMessage");
+            const button = form.querySelector(
+                'button[type="submit"], button:not([type])'
+            );
+
+            if (form.dataset.submitting === "true") return;
+
+            const emailInput = document.getElementById("email");
+            const passwordInput = document.getElementById("password");
+
+            if (!emailInput || !passwordInput) return;
+
+            emailInput.value = emailInput.value.trim();
+
+            if (!form.reportValidity()) return;
+
+            form.dataset.submitting = "true";
+
+            if (button) button.disabled = true;
+            if (message) message.textContent = "Signing in...";
+
+            try {
+                const response = await apiFetch("/users/login", {
+                    method: "POST",
+                    body: new URLSearchParams({
+                        email: emailInput.value,
+                        password: passwordInput.value
+                    }),
+                    signal: AbortSignal.timeout(20000)
+                });
+
+                if (!response.ok) {
+                    throw new Error(
+                        response.status === 401
+                            ? "Invalid email or password."
+                            : "Login failed. Please refresh and try again."
+                    );
+                }
+
+                const user = await loadCurrentUser();
+
+                if (!user) {
+                    throw new Error(
+                        "Session was not saved. Open the frontend using localhost."
+                    );
+                }
+
+                window.location.href = "index.html";
+            } catch (error) {
+                if (message) {
+                    message.textContent =
+                        error.name === "TimeoutError"
+                            ? "The server took too long. Please try again."
+                            : error.message;
+                }
+            } finally {
+                form.dataset.submitting = "false";
+                if (button) button.disabled = false;
+            }
+        });
+    }
+
+    document.querySelectorAll("[data-logout]").forEach(button => {
+        if (button.dataset.authInitialized === "true") return;
+
+        button.dataset.authInitialized = "true";
+
+        button.addEventListener("click", async event => {
+            event.preventDefault();
+
+            if (button.dataset.submitting === "true") return;
+
+            button.dataset.submitting = "true";
+            button.disabled = true;
+
+            try {
+                const response = await apiFetch("/users/logout", {
+                    method: "POST",
+                    signal: AbortSignal.timeout(20000)
+                });
+
+                if (!response.ok) {
+                    throw new Error("Logout failed. Please try again.");
+                }
+
+                window.location.href = "login.html";
+            } catch (error) {
+                alert(error.message);
+            } finally {
+                button.dataset.submitting = "false";
+                button.disabled = false;
+            }
+        });
+    });
+
+    updateAccountDisplay();
+}
+
+async function registerUser(username, email, password) {
+    const response = await apiFetch("/users", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            username: username.trim(),
+            email: email.trim(),
+            password
+        }),
+        signal: AbortSignal.timeout(20000)
+    });
+
+    if (!response.ok) {
+        if (response.status === 409) {
+            throw new Error("Email already registered.");
+        }
+
+        if (response.status === 400) {
+            throw new Error(
+                "Check your username, email and password. The password must have at least 8 characters and at most 72 bytes."
+            );
+        }
+
+        throw new Error("Registration failed. Please try again.");
+    }
+
+    return response.json();
+}
+
+function initializeRegistration() {
+    const form = document.getElementById("registerForm");
+
+    if (!form || form.dataset.authInitialized === "true") return;
+
+    form.dataset.authInitialized = "true";
+
+    form.addEventListener("submit", async event => {
         event.preventDefault();
 
-        const email = document.getElementById("email").value;
-        const password = document.getElementById("password").value;
-        const message = document.getElementById("loginMessage");
+        if (form.dataset.submitting === "true") return;
+
+        const usernameInput = form.querySelector(
+            '[name="username"], #registerUsername, #username'
+        );
+        const emailInput = form.querySelector(
+            '[name="email"], #registerEmail, #email'
+        );
+        const passwordInput = form.querySelector(
+            '[name="password"], #registerPassword, #password'
+        );
+        const confirmInput = form.querySelector(
+            '[name="confirmPassword"], #confirmPassword'
+        );
+        const message = document.getElementById("registerMessage");
+        const button = form.querySelector(
+            'button[type="submit"], button:not([type])'
+        );
+
+        if (!usernameInput || !emailInput || !passwordInput) {
+            if (message) {
+                message.textContent = "Registration form fields are missing.";
+            }
+
+            return;
+        }
+
+        usernameInput.value = usernameInput.value.trim();
+        emailInput.value = emailInput.value.trim();
+
+        if (!form.reportValidity()) return;
+
+        if (
+            confirmInput &&
+            confirmInput.value !== passwordInput.value
+        ) {
+            if (message) {
+                message.textContent = "Passwords do not match.";
+            }
+
+            return;
+        }
+
+        form.dataset.submitting = "true";
+
+        if (button) button.disabled = true;
+        if (message) message.textContent = "Creating account...";
 
         try {
-            const response = await fetch(`${API_BASE}/users/login`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({ email, password })
-            });
+            await registerUser(
+                usernameInput.value,
+                emailInput.value,
+                passwordInput.value
+            );
 
-            const result = await response.text();
+            form.reset();
 
-            if (response.ok && result.trim() === "Login successful") {
-                window.location.href = "index.html";
-            } else if (message) {
-                message.textContent = result;
+            if (message) {
+                message.textContent = "Account created. You can now sign in.";
+            } else {
+                window.location.href = "login.html";
             }
         } catch (error) {
             if (message) {
-                message.textContent = "Could not connect to server.";
+                message.textContent = error.message;
             }
-
-            console.error("Login failed:", error);
+        } finally {
+            form.dataset.submitting = "false";
+            if (button) button.disabled = false;
         }
-    }
-);
+    });
+}
 
+function linkToGame(element, game) {
+    element.style.cursor = "pointer";
+    element.tabIndex = 0;
+    element.setAttribute("role", "link");
+    element.setAttribute("aria-label", `View ${game.name || "game"}`);
+
+    element.onclick = () => {
+        window.location.href =
+            `sproduct.html?id=${encodeURIComponent(game.id)}`;
+    };
+
+    element.onkeydown = event => {
+        if (event.key === "Enter") {
+            event.preventDefault();
+            element.click();
+        }
+    };
+}
 
 async function fetchRawg(path, signal) {
-    const response = await fetch(`${API_BASE}/rawg${path}`, {
+    const response = await apiFetch(`/rawg${path}`, {
         signal
     });
 
@@ -50,7 +320,7 @@ async function fetchRawg(path, signal) {
 }
 
 function getGamesFromResponse(data) {
-    if (!Array.isArray(data.results)) {
+    if (!data || !Array.isArray(data.results)) {
         throw new Error("RAWG response does not contain games");
     }
 
@@ -75,6 +345,7 @@ function createGameImage(game) {
     if (!game.background_image) return null;
 
     const image = document.createElement("img");
+
     image.src = game.background_image;
     image.alt = game.name || "Game";
     image.loading = "lazy";
@@ -86,13 +357,9 @@ function createGameImage(game) {
     return image;
 }
 
-// CATEGORY GAMES
-const categoryContainer = document.getElementById("category-games");
-const categoryStatus = document.getElementById("category-status");
-const categoryButtons = document.querySelectorAll(
-    "#catg button[data-category]"
-);
-
+let categoryContainer;
+let categoryStatus;
+let categoryButtons = [];
 let categoryRequest;
 
 function formatCategoryDate(date) {
@@ -110,7 +377,6 @@ function getCategoryParams(category) {
 
     switch (category) {
         case "popular": {
-        
             const start = new Date(today);
             start.setDate(start.getDate() - 90);
 
@@ -119,18 +385,18 @@ function getCategoryParams(category) {
                 "dates",
                 `${formatCategoryDate(start)},${todayText}`
             );
+
             break;
         }
 
         case "rated": {
-          
             params.set("ordering", "-rating");
             params.set("dates", `1900-01-01,${todayText}`);
+
             break;
         }
 
         case "upcoming": {
-        
             const tomorrow = new Date(today);
             tomorrow.setDate(tomorrow.getDate() + 1);
 
@@ -142,12 +408,12 @@ function getCategoryParams(category) {
                 "dates",
                 `${formatCategoryDate(tomorrow)},${formatCategoryDate(end)}`
             );
+
             break;
         }
 
         case "all":
         default: {
-            
             params.set("ordering", "-added");
             params.set("dates", `1900-01-01,${todayText}`);
         }
@@ -176,7 +442,6 @@ async function loadCategoryDescription(id, element, signal) {
 async function loadCategoryGames(category) {
     if (!categoryContainer || !categoryStatus) return;
 
-    
     categoryRequest?.abort();
 
     const request = new AbortController();
@@ -211,6 +476,8 @@ async function loadCategoryGames(category) {
         games.forEach(game => {
             const card = document.createElement("article");
             card.className = "category-card";
+
+            linkToGame(card, game);
 
             const image = createGameImage(game);
 
@@ -261,7 +528,18 @@ async function loadCategoryGames(category) {
     }
 }
 
-if (categoryContainer) {
+function initializeCategories() {
+    categoryContainer = document.getElementById("category-games");
+    categoryStatus = document.getElementById("category-status");
+    categoryButtons = document.querySelectorAll(
+        "#catg button[data-category]"
+    );
+
+    if (!categoryContainer) {
+        loadRawgImages();
+        return;
+    }
+
     categoryButtons.forEach(button => {
         button.addEventListener("click", () => {
             loadCategoryGames(button.dataset.category);
@@ -275,7 +553,6 @@ if (categoryContainer) {
     loadCategoryGames(initialCategory);
 }
 
-
 async function loadRawgImages() {
     const images = document.querySelectorAll("#catgs > .s2 > img");
 
@@ -284,15 +561,16 @@ async function loadRawgImages() {
     try {
         const pageName = window.location.pathname.split("/").pop();
 
-const categoryByPage = {
-    "store.html": "popular",
-    "popularupcoming.html": "upcoming",
-    "topgrossing.html": "all"
-};
+        const categoryByPage = {
+            "store.html": "popular",
+            "popularupcoming.html": "upcoming",
+            "topgrossing.html": "all"
+        };
 
-const category = categoryByPage[pageName] || "all";
-const params = getCategoryParams(category);
-const data = await fetchRawg(`/games?${params}`);
+        const category = categoryByPage[pageName] || "all";
+        const params = getCategoryParams(category);
+        const data = await fetchRawg(`/games?${params}`);
+
         const games = getGamesFromResponse(data).filter(
             game => game.background_image
         );
@@ -305,6 +583,8 @@ const data = await fetchRawg(`/games?${params}`);
 
                 const row = image.parentElement;
                 row.classList.add("game-row");
+
+                linkToGame(row, game);
                 row.querySelector(".game-description")?.remove();
 
                 const originalImage = image.src;
@@ -348,10 +628,6 @@ const data = await fetchRawg(`/games?${params}`);
     }
 }
 
-if (!categoryContainer) {
-    loadRawgImages();
-}
-
 async function loadFeaturedSlider() {
     const section = document.getElementById("MP");
 
@@ -368,6 +644,7 @@ async function loadFeaturedSlider() {
     const description = document.createElement("p");
     description.className = "featured-description";
     description.setAttribute("aria-live", "off");
+
     title.after(description);
 
     const controls = document.createElement("div");
@@ -427,6 +704,19 @@ async function loadFeaturedSlider() {
             image.src = game.background_image;
             image.alt = game.name;
             title.textContent = game.name;
+
+            linkToGame(image, game);
+
+            if (playButton) {
+                playButton.hidden = false;
+                playButton.textContent = "View Game";
+
+                playButton.onclick = () => {
+                    window.location.href =
+                        `sproduct.html?id=${encodeURIComponent(game.id)}`;
+                };
+            }
+
             description.textContent = "Loading description...";
 
             try {
@@ -435,7 +725,6 @@ async function loadFeaturedSlider() {
 
                     detailsCache.set(game.id, request);
 
-                    // Remove a failed request so it can be retried.
                     request.catch(() => {
                         if (detailsCache.get(game.id) === request) {
                             detailsCache.delete(game.id);
@@ -483,6 +772,7 @@ async function loadFeaturedSlider() {
         pause.addEventListener("click", () => {
             paused = !paused;
             pause.textContent = paused ? "Resume" : "Pause";
+
             startTimer();
         });
 
@@ -499,10 +789,6 @@ async function loadFeaturedSlider() {
         description.textContent = "Unable to load featured games.";
         console.error(error);
     }
-}
-
-if (document.getElementById("MP")) {
-    loadFeaturedSlider();
 }
 
 async function loadDiscountGames() {
@@ -524,6 +810,8 @@ async function loadDiscountGames() {
         games.forEach(game => {
             const box = document.createElement("div");
             box.className = "dbox";
+
+            linkToGame(box, game);
 
             const image = createGameImage(game);
 
@@ -548,6 +836,122 @@ async function loadDiscountGames() {
     }
 }
 
-if (document.getElementById("discount-container")) {
+function getCart() {
+    const saved = localStorage.getItem(FOG_CART_KEY);
+
+    if (!saved) return [];
+
+    const cart = JSON.parse(saved);
+
+    if (!Array.isArray(cart)) {
+        throw new Error("Invalid saved cart.");
+    }
+
+    return cart;
+}
+
+function saveCart(cart) {
+    localStorage.setItem(FOG_CART_KEY, JSON.stringify(cart));
+}
+
+function addGameToCart(game) {
+    const cart = getCart();
+
+    const existing = cart.find(
+        item => String(item.id) === String(game.id)
+    );
+
+    if (existing) return false;
+
+    cart.push({
+        id: game.id,
+        name: game.name,
+        image: game.background_image || "",
+        price: null,
+        quantity: 1
+    });
+
+    saveCart(cart);
+
+    return true;
+}
+
+function initializeNewsletter() {
+    const form = document.getElementById("newsletter-form");
+
+    if (!form || form.dataset.initialized === "true") return;
+
+    const emailInput = document.getElementById("newsletter-email");
+    const message = document.getElementById("newsletter-message");
+    const button = form.querySelector('button[type="submit"]');
+
+    if (!emailInput || !message || !button) return;
+
+    form.dataset.initialized = "true";
+
+    form.addEventListener("submit", async event => {
+        event.preventDefault();
+
+        if (button.disabled) return;
+
+        emailInput.value = emailInput.value.trim();
+
+        if (!form.reportValidity()) return;
+
+        button.disabled = true;
+        button.textContent = "Signing up...";
+        message.textContent = "";
+
+        try {
+            const response = await apiFetch("/newsletter/subscribe", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    email: emailInput.value
+                }),
+                signal: AbortSignal.timeout(20000)
+            });
+
+            if (!response.ok) {
+                throw new Error("Subscription failed");
+            }
+
+            message.textContent =
+                "You're subscribed! Thanks for joining FOG.";
+
+            message.style.color = "#a7f3d0";
+            form.reset();
+        } catch (error) {
+            message.textContent =
+                "Couldn't subscribe right now. Please try again later.";
+
+            message.style.color = "#fecaca";
+        } finally {
+            button.disabled = false;
+            button.textContent = "Sign up";
+        }
+    });
+}
+
+let fogInitialized = false;
+
+function initializeFog() {
+    if (fogInitialized) return;
+
+    fogInitialized = true;
+
+    initializeAccount();
+    initializeRegistration();
+    initializeNewsletter();
+    initializeCategories();
+    loadFeaturedSlider();
     loadDiscountGames();
+}
+
+if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initializeFog);
+} else {
+    initializeFog();
 }
